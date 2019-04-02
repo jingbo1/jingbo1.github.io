@@ -55,11 +55,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/大数据/">大数据</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
-	        
-				<li><a href="/">主页tab</a></li>
 	        
 			</ul>
 		</nav>
@@ -117,10 +113,6 @@
 			
 				
 			
-				
-			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -138,16 +130,12 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 70%">
+				<ul style="width: 50%">
 				
 				
-					<li style="width: 25%"><a href="/">主页</a></li>
+					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 25%"><a href="/tags/大数据/">大数据</a></li>
-		        
-					<li style="width: 25%"><a href="/tags/随笔/">随笔</a></li>
-		        
-					<li style="width: 25%"><a href="/">主页tab</a></li>
+					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -163,91 +151,6 @@
           </div>
           <div id="js-content" class="content-ll">
             
-  
-    <article id="post-Untitled" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/02/Untitled/">Untitled</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/02/Untitled/" class="archive-article-date">
-  	<time datetime="2019-04-01T22:32:16.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>fasdfasdfadsfsdafdafadf</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">test</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/test//" class="article-tag-list-link color5">test</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/02/Untitled/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
     <article id="post-Hadoop HA入门笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -285,7 +188,8 @@
 </code></pre><p>当有多台节点时<br>hadoop fs -ls hdfs://ip1:9000/<br>hadoop fs -ls hdfs://ip2:9000/</p>
 <p>hadoop001:    ZK        NN        ZKFC        JN        DN<br>hadoop002:    ZK        NN        ZKFC        JN        DN<br>hadoop003:    ZK                                    JN        DN    </p>
 <p>ZK节点并非越多越好，太多的话， 投票选举消耗时间太多。并且ZK的数量一般为2n+1(奇数)个，避免投票出现平票情况<br>如果节点数量足够大，几百台这种规模，直接搞一台机器部署ZOOKEEPER</p>
-<p>架构图如下所示：<br><img src="https://img-blog.csdnimg.cn/20190329120846271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MzYzODQ5,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>架构图如下所示：</p>
+<p><img src="/images/hdfs_ha.jpeg" alt></p>
 <h3 id="YARN-HA"><a href="#YARN-HA" class="headerlink" title="YARN HA"></a>YARN HA</h3><h5 id="ResourceManager-ZKFC-in-YARN-线程"><a href="#ResourceManager-ZKFC-in-YARN-线程" class="headerlink" title="ResourceManager(ZKFC(in YARN 线程))"></a>ResourceManager(ZKFC(in YARN 线程))</h5><pre><code>1.启动的时候会向ZK的/rmstore目录写lock文件，如果写成功即为active，否则为standby。RM节点的ZKFC进程会一直监控lock文件是否存在，假如不存在，就为active，如果存在，就为standby。
 2.接受Client端的请求，接受和监控NM的资源状况的汇报，负载资源和分配调度。
 3.启动和监控ApplicationMaster on NameNode的container
@@ -297,7 +201,8 @@
 1.RM(active)会向这个目录写APP信息
 2.当RM(active)故障，另一个RM(standby)通过ZKFC选举成功为active，会从/rmstore读取相应的作业信息
   重新构造作业的内存信息，启动内部的服务，开始接受NM的心跳。构建集群资源信息，并且接受客户端作业提交请求。
-</code></pre><p><img src="https://img-blog.csdnimg.cn/20190329120918752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MzYzODQ5,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</code></pre><p>架构图如下所示:</p>
+<p><img src="/images/yarn_ha.jpeg" alt></p>
 
       
 
